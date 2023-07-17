@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import gt.trading.openbook.MapperSingleton;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -15,7 +17,7 @@ public final class LocalStorage<T> {
   private final String saveFolder;
   private final String fileName;
 
-  private final ObjectMapper objectMapper = new ObjectMapper();
+  private final ObjectMapper objectMapper = MapperSingleton.getInstance();
   private BufferedWriter bw;
   private int csvRowCount = 0;
 
@@ -28,7 +30,7 @@ public final class LocalStorage<T> {
     /**
      * Builder Constructor.
      *
-     * @param newSaveFolder
+     * @param newSaveFolder the folder to save files in
      */
     public Builder(final String newSaveFolder) {
       this.saveFolder = newSaveFolder;
@@ -37,7 +39,7 @@ public final class LocalStorage<T> {
     /**
      * Set fileName.
      *
-     * @param val
+     * @param val the file name
      * @return builder
      */
     public Builder<T> fileName(final String val) {
@@ -48,7 +50,7 @@ public final class LocalStorage<T> {
     /**
      * Set csvMaxRows.
      *
-     * @param val
+     * @param val max number of rows in csv files
      * @return builder
      */
     public Builder<T> csvMaxRows(final int val) {
@@ -62,7 +64,7 @@ public final class LocalStorage<T> {
      * @return instance
      */
     public LocalStorage<T> build() throws IOException {
-      return new LocalStorage(this);
+      return new LocalStorage<T>(this);
     }
   }
 
@@ -70,7 +72,7 @@ public final class LocalStorage<T> {
    * LocalStorage constructor. If not given a filename to resume, would generate
    * a filename by current time.
    *
-   * @param builder
+   * @param builder custom builder used to instantiate class
    */
   private LocalStorage(final Builder<T> builder) throws IOException {
 
@@ -107,7 +109,7 @@ public final class LocalStorage<T> {
   /**
    * GET method for filepath. The value is final after construction.
    *
-   * @return fileName
+   * @return file path
    */
   public String getFilePath() {
     return this.saveFolder + "/" + this.fileName;
@@ -126,6 +128,11 @@ public final class LocalStorage<T> {
     csvRowCount = 0;
   }
 
+  /**
+   * Gets the current time and formats it to be used as a file name.
+   *
+   * @return file name
+   */
   private String getTimeFileName() {
     LocalDateTime currentDateTime = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter
