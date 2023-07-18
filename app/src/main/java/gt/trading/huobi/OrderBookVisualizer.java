@@ -23,6 +23,7 @@ import gt.trading.huobi.models.PriceLevel;
  */
 public class OrderBookVisualizer extends JFrame {
   private static final int TEN = 10;
+  private static final int HUNDRED = 100;
 
   private static final int VISUALIZER_WIDTH = 400;
   private static final int VISUALIZER_HEIGHT = 800;
@@ -30,6 +31,8 @@ public class OrderBookVisualizer extends JFrame {
   private static final int BOX_PANEL_HEIGHT = 20;
 
   private static final Dimension PREF_DIMENSION = new Dimension(150, 20);
+  private static final Color GREEN = new Color(0, 153, 51);
+  private static final Color RED = new Color(204, 0, 0);
 
   private JPanel bidsPanel;
   private JPanel asksPanel;
@@ -94,14 +97,14 @@ public class OrderBookVisualizer extends JFrame {
       @Override
       public void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        int barWidth = (int) Math.max(1, 100 * Math.log10(totalAmount));
+        int barWidth = (int) Math.max(1, HUNDRED * Math.log10(totalAmount));
         int boxHeight = BOX_PANEL_HEIGHT;
         int x = 0;
         int y = 0;
         int width = barWidth;
         int height = boxHeight;
 
-        g.setColor(isBid ? new Color(0, 153, 51) : new Color(204, 0, 0));
+        g.setColor(isBid ? GREEN : RED);
         g.fillRect(x, y, width, height);
         g.setColor(Color.BLACK);
         g.drawRect(x, y, width, height);
