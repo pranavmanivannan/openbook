@@ -8,6 +8,7 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,6 +22,9 @@ public class Storage {
   private LocalStorage<DepthData> depthLocalStorage;
   private LocalStorage<TradeData> tradeLocalStorage;
   private LocalStorage<OrderBookData> orderBookLocalStorage;
+
+  private static final Logger LOGGER = Logger
+      .getLogger(Storage.class.getName());
 
   private static final int INTERVAL_MS = 300000;
 
@@ -45,13 +49,13 @@ public class Storage {
           uploadData(depthLocalStorage.getFilePath());
           uploadData(tradeLocalStorage.getFilePath());
           uploadData(orderBookLocalStorage.getFilePath());
-          System.out.println("S3 uploaded!");
+          LOGGER.info("S3 uploaded!");
         }
       };
       timer.scheduleAtFixedRate(task, 0, INTERVAL_MS);
 
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.severe(e.getMessage());
     }
 
   }
@@ -67,7 +71,7 @@ public class Storage {
       String jsonString = objectMapper.writeValueAsString(data);
       depthLocalStorage.onEvent(data);
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.warning(e.getMessage());
     }
   }
 
@@ -82,7 +86,7 @@ public class Storage {
       String jsonString = objectMapper.writeValueAsString(data);
       tradeLocalStorage.onEvent(data);
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.warning(e.getMessage());
     }
   }
 
@@ -97,7 +101,7 @@ public class Storage {
       String jsonString = objectMapper.writeValueAsString(data);
       orderBookLocalStorage.onEvent(data);
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.warning(e.getMessage());
     }
   }
 

@@ -9,6 +9,7 @@ import gt.trading.openbook.MapperSingleton;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Logger;
 
 public final class LocalStorage<T> {
   private static final int DEFAULT_MAX_ROWS = 100;
@@ -20,6 +21,9 @@ public final class LocalStorage<T> {
   private final ObjectMapper objectMapper = MapperSingleton.getInstance();
   private BufferedWriter bw;
   private int csvRowCount = 0;
+
+  private static final Logger LOGGER = Logger
+      .getLogger(LocalStorage.class.getName());
 
   public static class Builder<T> {
     private final String saveFolder;
@@ -102,7 +106,7 @@ public final class LocalStorage<T> {
         flushToFile();
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.warning(e.getMessage());
     }
   }
 
@@ -124,7 +128,7 @@ public final class LocalStorage<T> {
    */
   private void flushToFile() throws IOException {
     bw.flush();
-    System.out.println("Flushed " + this.saveFolder);
+    LOGGER.info("Flushed " + this.saveFolder);
     csvRowCount = 0;
   }
 
