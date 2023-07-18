@@ -66,8 +66,12 @@ public final class GraphRunner {
   private void createReports() {
     File reports = new File(csvFolderName);
     if (!reports.exists()) {
-      reports.mkdirs();
-      LOGGER.info("Reports folder created.");
+      boolean created = reports.mkdirs();
+      if (created) {
+        LOGGER.info("Reports folder created.");
+      } else {
+        LOGGER.info("Reports folder creation failed.");
+      }
     }
   }
 }
