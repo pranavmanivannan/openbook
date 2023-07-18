@@ -22,6 +22,9 @@ import gt.trading.huobi.models.PriceLevel;
  * the top 10 bids and asks in a graphical format.
  */
 public class OrderBookVisualizer extends JFrame {
+  private static final int TEN = 10;
+  private static final int VISUALIZER_WIDTH = 300;
+  private static final int VISUALIZER_HEIGHT = 800;
 
   private JPanel bidsPanel;
   private JPanel asksPanel;
@@ -35,7 +38,7 @@ public class OrderBookVisualizer extends JFrame {
   public OrderBookVisualizer() {
     // Initialize the frame
     super("Orderbook Visualizer");
-    setSize(300, 800);
+    setSize(VISUALIZER_WIDTH, VISUALIZER_HEIGHT);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // Create the bids panel
@@ -73,8 +76,8 @@ public class OrderBookVisualizer extends JFrame {
    *                    or an ask (false)
    * @return a new JPanel representing the order
    */
-  private JPanel createOrderPanel(double totalAmount, double amount,
-      double price, boolean isBid) {
+  private JPanel createOrderPanel(final double totalAmount, final double amount,
+      final double price, final boolean isBid) {
     JPanel panel = new JPanel();
     panel.setLayout(new BorderLayout());
 
@@ -84,7 +87,7 @@ public class OrderBookVisualizer extends JFrame {
 
     JPanel box = new JPanel() {
       @Override
-      public void paintComponent(Graphics g) {
+      public void paintComponent(final Graphics g) {
         super.paintComponent(g);
         int barWidth = (int) Math.max(1, 100 * Math.log10(totalAmount));
         int boxHeight = 20;
@@ -118,26 +121,26 @@ public class OrderBookVisualizer extends JFrame {
    */
   public void updateOrderBook(final OrderBookData newData) {
 
-    if (newData.getAsks().size() >= 10) {
-      askData = newData.getAsks().subList(0, 10);
+    if (newData.getAsks().size() >= TEN) {
+      askData = newData.getAsks().subList(0, TEN);
     } else {
       if (askData != null) {
         askData.addAll(newData.getAsks());
-        if (askData.size() > 10) {
-          askData = askData.subList(0, 10);
+        if (askData.size() > TEN) {
+          askData = askData.subList(0, TEN);
         }
       } else {
         askData = newData.getAsks();
       }
     }
 
-    if (newData.getBids().size() >= 10) {
-      bidData = newData.getBids().subList(0, 10);
+    if (newData.getBids().size() >= TEN) {
+      bidData = newData.getBids().subList(0, TEN);
     } else {
       if (bidData != null) {
         bidData.addAll(newData.getBids());
-        if (bidData.size() > 10) {
-          bidData = bidData.subList(0, 10);
+        if (bidData.size() > TEN) {
+          bidData = bidData.subList(0, TEN);
         }
       } else {
         bidData = newData.getBids();
@@ -151,12 +154,12 @@ public class OrderBookVisualizer extends JFrame {
     askLevels.sort(Comparator.comparing(PriceLevel::getPrice));
 
     // Get the top 10 ask levels
-    askLevels = askLevels.subList(0, Math.min(10, askLevels.size()));
+    askLevels = askLevels.subList(0, Math.min(TEN, askLevels.size()));
 
     // Sort the bid levels by price in descending order
     bidLevels.sort(Comparator.comparing(PriceLevel::getPrice));
     // Get the top 10 bid levels
-    bidLevels = bidLevels.subList(0, Math.min(10, bidLevels.size()));
+    bidLevels = bidLevels.subList(0, Math.min(TEN, bidLevels.size()));
 
     // Clear the existing panels
     asksPanel.removeAll();
