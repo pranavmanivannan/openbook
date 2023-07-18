@@ -34,6 +34,8 @@ public class OrderBookVisualizer extends JFrame {
   private static final Color GREEN = new Color(0, 153, 51);
   private static final Color RED = new Color(204, 0, 0);
 
+  private static final float REMOVAL_NUM = 0.0001f;
+
   private JPanel bidsPanel;
   private JPanel asksPanel;
 
@@ -196,7 +198,7 @@ public class OrderBookVisualizer extends JFrame {
       bidsPanel.add(bidPanel);
     }
 
-    bidData.removeIf(level -> level.getAmount() < 0.0001);
-    askData.removeIf(level -> level.getAmount() < 0.0001);
+    bidData.removeIf(level -> level.getAmount() < REMOVAL_NUM);
+    askData.removeIf(level -> level.getAmount() < REMOVAL_NUM);
   }
 }
