@@ -23,8 +23,13 @@ import gt.trading.huobi.models.PriceLevel;
  */
 public class OrderBookVisualizer extends JFrame {
   private static final int TEN = 10;
-  private static final int VISUALIZER_WIDTH = 300;
+
+  private static final int VISUALIZER_WIDTH = 400;
   private static final int VISUALIZER_HEIGHT = 800;
+
+  private static final int BOX_PANEL_HEIGHT = 20;
+
+  private static final Dimension PREF_DIMENSION = new Dimension(150, 20);
 
   private JPanel bidsPanel;
   private JPanel asksPanel;
@@ -90,7 +95,7 @@ public class OrderBookVisualizer extends JFrame {
       public void paintComponent(final Graphics g) {
         super.paintComponent(g);
         int barWidth = (int) Math.max(1, 100 * Math.log10(totalAmount));
-        int boxHeight = 20;
+        int boxHeight = BOX_PANEL_HEIGHT;
         int x = 0;
         int y = 0;
         int width = barWidth;
@@ -102,7 +107,7 @@ public class OrderBookVisualizer extends JFrame {
         g.drawRect(x, y, width, height);
       }
     };
-    box.setPreferredSize(new Dimension(150, 20));
+    box.setPreferredSize(PREF_DIMENSION);
 
     JLabel sizeLabel = new JLabel(
         String.format("%.4f (%.2f)", amount, totalAmount));
