@@ -16,6 +16,10 @@ import gt.trading.openbook.listeners.MarketListener;
  * to a specified folder.
  */
 public final class GraphRunner {
+  private final String csvFolderName = "app/src/resources/featuregraph/reports";
+  private static final Logger LOGGER = Logger
+      .getLogger(GraphRunner.class.getName());
+
   /**
    * Runs a feature graph and adds the features to a CSV file/folder whose path
    * is specified in the constructor.
@@ -30,11 +34,11 @@ public final class GraphRunner {
     File jsonFile = new File(fileName);
     Config config = mapper.readValue(jsonFile, Config.class);
     String path = config.getBuilderPath();
-    final Logger logger = Logger.getLogger(GraphRunner.class.getName());
+    createReports();
 
     try {
       Class<?> customBuilderClass = Class.forName(path);
-      logger.info("Class loaded: " + customBuilderClass.getName());
+      LOGGER.info("Class loaded: " + customBuilderClass.getName());
 
       DefaultGraph graph = new DefaultGraph();
       Object builderObject = customBuilderClass.getDeclaredConstructor()
@@ -51,7 +55,19 @@ public final class GraphRunner {
     } catch (ClassNotFoundException | NoSuchMethodException
         | IllegalAccessException | InvocationTargetException
         | InstantiationException error) {
-      logger.severe("Error running graph: " + error.getMessage());
+      LOGGER.severe("Error running graph: " + error.getMessage());
+    }
+  }
+
+  /**
+   * Creates the "reports" folder in resources/featuregraph if it's not already
+   * there.
+   */
+  private void createReports() {
+    File reports = new File(csvFolderName);
+    if (!reports.exists()) {
+      reports.mkdirs();
+      LOGGER.info("Reports folder created.");
     }
   }
 }
