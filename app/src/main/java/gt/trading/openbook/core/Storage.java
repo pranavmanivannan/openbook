@@ -67,12 +67,7 @@ public class Storage {
    * @param data
    */
   public void onDepthEvent(final DepthData data) {
-    try {
-      String jsonString = objectMapper.writeValueAsString(data);
-      depthLocalStorage.onEvent(data);
-    } catch (Exception e) {
-      LOGGER.warning(e.getMessage());
-    }
+    depthLocalStorage.onEvent(data);
   }
 
   /**
@@ -82,12 +77,7 @@ public class Storage {
    * @param data
    */
   public void onTradeEvent(final TradeData data) {
-    try {
-      String jsonString = objectMapper.writeValueAsString(data);
-      tradeLocalStorage.onEvent(data);
-    } catch (Exception e) {
-      LOGGER.warning(e.getMessage());
-    }
+    tradeLocalStorage.onEvent(data);
   }
 
   /**
@@ -97,12 +87,7 @@ public class Storage {
    * @param data
    */
   public void onOrderBookEvent(final OrderBookData data) {
-    try {
-      String jsonString = objectMapper.writeValueAsString(data);
-      orderBookLocalStorage.onEvent(data);
-    } catch (Exception e) {
-      LOGGER.warning(e.getMessage());
-    }
+    orderBookLocalStorage.onEvent(data);
   }
 
   /**
