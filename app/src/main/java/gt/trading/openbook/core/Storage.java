@@ -10,15 +10,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import gt.trading.openbook.MapperSingleton;
 import gt.trading.openbook.models.DepthData;
 import gt.trading.openbook.models.TradeData;
 import gt.trading.openbook.models.OrderBookData;
 
 public class Storage {
-  private ObjectMapper objectMapper = MapperSingleton.getInstance();
   private LocalStorage<DepthData> depthLocalStorage;
   private LocalStorage<TradeData> tradeLocalStorage;
   private LocalStorage<OrderBookData> orderBookLocalStorage;
