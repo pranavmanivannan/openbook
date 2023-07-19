@@ -31,13 +31,13 @@ public class Storage {
   public Storage() {
     try {
       depthLocalStorage = new LocalStorage.Builder<DepthData>(
-          "storageData/depthData").build();
+          "app/storageData/depthData").build();
 
       tradeLocalStorage = new LocalStorage.Builder<TradeData>(
-          "storageData/tradeData").build();
+          "app/storageData/tradeData").build();
 
       orderBookLocalStorage = new LocalStorage.Builder<OrderBookData>(
-          "storageData/orderBookData").build();
+          "app/storageData/orderBookData").build();
 
       Timer timer = new Timer();
       TimerTask task = new TimerTask() {
@@ -92,7 +92,7 @@ public class Storage {
    * @param filename
    */
   public void uploadData(final String filename) {
-    String bucketname = "huobi";
+    String bucketname = "huobi-openbook";
     String filepath = filename;
 
     S3Client client = S3Client.builder().credentialsProvider(null)

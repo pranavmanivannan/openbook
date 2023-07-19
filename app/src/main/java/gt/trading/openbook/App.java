@@ -6,7 +6,8 @@ import java.util.logging.Logger;
 
 // import gt.trading.openbook.core.Storage;
 import gt.trading.openbook.listeners.MarketListener;
-
+import gt.trading.openbook.listeners.OrderBookListener;
+import gt.trading.openbook.core.Storage;
 import gt.trading.openbook.featuregraph.GraphRunner;
 
 /**
@@ -17,7 +18,7 @@ import gt.trading.openbook.featuregraph.GraphRunner;
  */
 public final class App {
   private static final Logger LOGGER = Logger.getLogger(App.class.getName());
-  private static MarketListener marketListener = new MarketListener();
+  // private static MarketListener marketListener = new MarketListener();
 
   private App() {
     return;
@@ -36,24 +37,24 @@ public final class App {
   public static void main(final String[] args) {
 
     // S3 Code
-    // MarketListener marketListener = new MarketListener();
-    // OrderBookListener orderBookListener = new OrderBookListener();
-    // Storage storage = new Storage();
+    MarketListener marketListener = new MarketListener();
+    OrderBookListener orderBookListener = new OrderBookListener();
+    Storage storage = new Storage();
 
-    // marketListener.connect("wss://api-aws.huobi.pro/ws");
-    // orderBookListener.connect("wss://api-aws.huobi.pro/feed");
+    marketListener.connect("wss://api-aws.huobi.pro/ws");
+    orderBookListener.connect("wss://api-aws.huobi.pro/feed");
 
-    // marketListener.subscribeDepth(data -> {
-    // storage.onDepthEvent(data);
-    // });
+    marketListener.subscribeDepth(data -> {
+    storage.onDepthEvent(data);
+    });
 
-    // marketListener.subscribeTradeDetail(data -> {
-    // storage.onTradeEvent(data);
-    // });
+    marketListener.subscribeTradeDetail(data -> {
+    storage.onTradeEvent(data);
+    });
 
-    // orderBookListener.subscribeMbp(data -> {
-    // storage.onOrderBookEvent(data);
-    // });
+    orderBookListener.subscribeMbp(data -> {
+    storage.onOrderBookEvent(data);
+    });
 
     try {
       new GraphRunner("app/src/resources/featuregraph/config/example.json",
