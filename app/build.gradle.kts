@@ -10,6 +10,7 @@ repositories {
 
 dependencies {
     // Use JUnit Jupiter for testing.
+    implementation("org.slf4j:slf4j-simple:1.7.9")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.0")
     implementation("javax.websocket:javax.websocket-client-api:1.1")
